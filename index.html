@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOG Youth Ministry Hub</title>
+
+  <style>
+    :root {
+      --navy: #111126;
+      --purple: #6500f5;
+      --gold: #f5b400;
+      --ink: #191936;
+      --muted: #65708a;
+      --border: #dfe4ef;
+      --background: #f5f7fc;
+      --white: #ffffff;
+      --red: #d92727;
+      --green: #159447;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, #e8ddff, transparent 35%),
+        var(--background);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: .6;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 5%;
+      color: white;
+      background: var(--navy);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      color: var(--navy);
+      background: var(--gold);
+      border-radius: 12px;
+      font-family: Arial, sans-serif;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 1.1rem;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 3px;
+      color: #cbd5e1;
+      font-family: Arial, sans-serif;
+      font-size: .68rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .nav-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .nav-button {
+      padding: 9px 13px;
+      color: #dbeafe;
+      background: transparent;
+      border: 1px solid #3b4560;
+      border-radius: 9px;
+      font-family: Arial, sans-serif;
+      font-size: .82rem;
+      font-weight: bold;
+    }
+
+    .nav-button:hover,
+    .nav-button.active {
+      color: white;
+      background: var(--purple);
+      border-color: var(--purple);
+    }
+
+    .nav-button.logout {
+      color: #fecaca;
+      border-color: #7f1d1d;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 35px auto 70px;
+    }
+
+    .auth-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 35px;
+      align-items: center;
+      min-height: 75vh;
+    }
+
+    .eyebrow {
+      color: var(--purple);
+      font-family: Arial, sans-serif;
+      font-size: .78rem;
+      font-weight: bold;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 700px;
+      margin: 14px 0 22px;
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      line-height: .98;
+      letter-spacing: -.04em;
+    }
+
+    h2 {
+      margin: 8px 0;
+      font-size: 2rem;
+    }
+
+    h3 {
+      margin-top: 8px;
+    }
+
+    p {
+      line-height: 1.55;
+    }
+
+    .intro p {
+      max-width: 600px;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+    }
+
+    .quote {
+      padding-left: 18px;
+      border-left: 4px solid var(--gold);
+      color: #475569 !important;
+      font-style: italic;
+    }
+
+    .panel,
+    .quiz-card,
+    .side-card,
+    .stat {
+      background: rgba(255, 255, 255, .96);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 18px 45px rgba(16, 24, 39, .08);
+    }
+
+    .panel {
+      padding: 28px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 22px;
+      padding: 5px;
+      background: #edf0f7;
+      border-radius: 11px;
+    }
+
+    .tab {
+      padding: 10px;
+      color: var(--muted);
+      background: transparent;
+      border: 0;
+      border-radius: 8px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+    }
+
+    .tab.active {
+      color: var(--ink);
+      background: white;
+      box-shadow: 0 2px 7px rgba(15, 23, 42, .1);
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 6px;
+      color: #475569;
+      font-family: Arial, sans-serif;
+      font-size: .82rem;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px 13px;
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(101, 0, 245, .12);
+    }
+
+    .primary-button,
+    .secondary-button,
+    .guest-button {
+      width: 100%;
+      margin-top: 16px;
+      padding: 13px 16px;
+      border: 0;
+      border-radius: 10px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+    }
+
+    .primary-button {
+      color: white;
+      background: var(--purple);
+    }
+
+    .primary-button:hover {
+      background: #4f00c4;
+    }
+
+    .secondary-button {
+      color: var(--ink);
+      background: #e8ecf6;
+    }
+
+    .guest-button {
+      color: #713f12;
+      background: #fff8c9;
+      border: 1px solid #f0c600;
+    }
+
+    .guest-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0 14px;
+      color: #94a3b8;
+      font-family: Arial, sans-serif;
+      font-size: .8rem;
+      text-transform: uppercase;
+    }
+
+    .guest-divider::before,
+    .guest-divider::after {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      content: "";
+    }
+
+    .guest-note {
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: .76rem;
+      text-align: center;
+    }
+
+    .form-message {
+      min-height: 22px;
+      margin-top: 14px;
+      color: var(--red);
+      font-family: Arial, sans-serif;
+      font-size: .85rem;
+    }
+
+    .dashboard-heading {
+      margin-bottom: 24px;
+    }
+
+    .dashboard-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      padding: 18px;
+    }
+
+    .stat-label {
+      display: block;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: .75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      display: block;
+      margin-top: 8px;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr);
+      gap: 20px;
+    }
+
+    .quiz-card {
+      padding: clamp(22px, 4vw, 40px);
+    }
+
+    .side-card {
+      padding: 24px;
+    }
+
+    .quiz-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 28px;
+      font-family: Arial, sans-serif;
+    }
+
+    .question-count {
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .timer {
+      min-width: 110px;
+      padding: 9px 12px;
+      color: white;
+      background: var(--navy);
+      border-radius: 10px;
+      font-family: Arial, sans-serif;
+      font-size: .9rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .timer.warning {
+      background: var(--red);
+    }
+
+    .question {
+      margin-bottom: 26px;
+      font-size: clamp(1.45rem, 3vw, 2.35rem);
+      line-height: 1.2;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option {
+      padding: 15px;
+      color: var(--ink);
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      font-family: Arial, sans-serif;
+      text-align: left;
+    }
+
+    .option:hover {
+      color: white;
+      background: var(--purple);
+      border-color: var(--purple);
+    }
+
+    .leaderboard {
+      margin: 0;
+      padding-left: 25px;
+      font-family: Arial, sans-serif;
+    }
+
+    .leaderboard li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .leaderboard li:first-child {
+      color: #a16207;
+      font-weight: bold;
+    }
+
+    .chat-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 20px;
+    }
+
+    .chat-messages {
+      height: 420px;
+      padding: 18px;
+      overflow-y: auto;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .message {
+      max-width: 80%;
+      margin-bottom: 14px;
+      padding: 11px 13px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px 12px 12px 3px;
+      font-family: Arial, sans-serif;
+    }
+
+    .message.mine {
+      margin-left: auto;
+      background: #e2d7ff;
+      border-color: #cbb7ff;
+    }
+
+    .message-author {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--purple);
+      font-size: .76rem;
+      font-weight: bold;
+    }
+
+    .message-text {
+      overflow-wrap: anywhere;
+    }
+
+    .message-time {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: .7rem;
+    }
+
+    .chat-form {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .chat-form input {
+      flex: 1;
+    }
+
+    .chat-form button {
+      width: auto;
+      margin-top: 0;
+    }
+
+    .members {
+      display: grid;
+      gap: 10px;
+      font-family: Arial, sans-serif;
+    }
+
+    .member {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+    }
+
+    .member-name {
+      display: block;
+      font-weight: bold;
+    }
+
+    .member-id {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: .73rem;
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: .78rem;
+      white-space: nowrap;
+    }
+
+    .status::before {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 5px;
+      background: #94a3b8;
+      border-radius: 50%;
+      content: "";
+    }
+
+    .status.online {
+      color: var(--green);
+    }
+
+    .status.online::before {
+      background: var(--green);
+    }
+
+    .empty-state {
+      padding: 30px;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    @media (max-width: 850px) {
+      .auth-layout,
+      .content-grid,
+      .chat-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 540px) {
+      main {
+        width: calc(100% - 20px);
+        margin-top: 20px;
+      }
+
+      .panel,
+      .quiz-card,
+      .side-card {
+        padding: 19px;
+      }
+
+      .chat-form {
+        flex-direction: column;
+      }
+
+      .chat-form button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav id="navbar" class="navbar hidden">
+    <div class="brand">
+      <div class="brand-mark">G</div>
+
+      <div>
+        <strong>GOG Youth Hub</strong>
+        <small>Goodness of God Prophetic Church</small>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="nav-button active" data-view="quiz-view">
+        Quiz Arena
+      </button>
+
+      <button class="nav-button" data-view="chat-view">
+        Fellowship Chat
+      </button>
+
+      <button class="nav-button" data-view="members-view">
+        Members
+      </button>
+
+      <button id="logout-button" class="nav-button logout">
+        Logout
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <section id="auth-screen" class="auth-layout">
+      <div class="intro">
+        <div class="eyebrow">Grow. Connect. Compete.</div>
+
+        <h1>
+          A place for young people to know God and know one another.
+        </h1>
+
+        <p>
+          Welcome to the GOG Youth Ministry Hub, a digital fellowship space
+          for Bible learning, encouragement, friendship, and healthy
+          competition.
+        </p>
+
+        <p class="quote">
+          “Let no one despise your youth, but be an example to the believers.”
+          <br>
+          1 Timothy 4:12
+        </p>
+      </div>
+
+      <div class="panel">
+        <div class="tabs">
+          <button id="register-tab" class="tab active">
+            Create account
+          </button>
+
+          <button id="login-tab" class="tab">
+            Sign in
+          </button>
+        </div>
+
+        <form id="register-form">
+          <h2>Join the hub</h2>
+
+          <label for="register-first-name">First name</label>
+          <input id="register-first-name" required>
+
+          <label for="register-nickname">Nickname</label>
+          <input id="register-nickname" required>
+
+          <label for="register-email">Email address</label>
+          <input id="register-email" type="email" required>
+
+          <label for="register-password">Password</label>
+          <input id="register-password" type="password" minlength="6" required>
+
+          <button class="primary-button" type="submit">
+            Create my account
+          </button>
+        </form>
+
+        <form id="login-form" class="hidden">
+          <h2>Welcome back</h2>
+
+          <label for="login-email">Email address</label>
+          <input id="login-email" type="email" required>
+
+          <label for="login-password">Password</label>
+          <input id="login-password" type="password" required>
+
+          <button class="primary-button" type="submit">
+            Sign in
+          </button>
+
+          <button id="reset-password-button" class="secondary-button" type="button">
+            Reset password
+          </button>
+        </form>
+
+        <div class="guest-divider">
+          <span>or</span>
+        </div>
+
+        <button id="guest-button" class="guest-button" type="button">
+          Continue as guest
+        </button>
+
+        <p class="guest-note">
+          Guests can play quizzes, use the chat, view the leaderboard, and see members.
+        </p>
+
+        <p id="auth-message" class="form-message"></p>
+      </div>
+    </section>
+
+    <section id="app-screen" class="hidden">
+      <div class="dashboard-heading">
+        <div class="eyebrow">Youth ministry community</div>
+        <h2 id="welcome-heading">Welcome</h2>
+        <p id="profile-id"></p>
+      </div>
+
+      <section id="quiz-view">
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-label">Today's points</span>
+            <span id="today-score" class="stat-value">0</span>
+          </div>
+
+          <div class="stat">
+            <span class="stat-label">Questions answered</span>
+            <span id="questions-answered" class="stat-value">0</span>
+          </div>
+
+          <div class="stat">
+            <span class="stat-label">Current streak</span>
+            <span id="current-streak" class="stat-value">0</span>
+          </div>
+        </div>
+
+        <div class="content-grid">
+          <div class="quiz-card">
+            <div id="quiz-setup">
+              <div class="eyebrow">Bible Quiz Arena</div>
+              <h2>Choose your Bible focus.</h2>
+              <p>
+                Answer 10 questions. Each question has 30 seconds.
+              </p>
+
+              <label for="book-filter">Bible book</label>
+
+              <select id="book-filter">
+                <option value="All">All available books</option>
+                <option value="Genesis">Genesis</option>
+                <option value="Proverbs">Proverbs</option>
+                <option value="Psalms">Psalms</option>
+                <option value="Daniel">Daniel</option>
+                <option value="Matthew">Matthew</option>
+                <option value="John">John</option>
+                <option value="Ephesians">Ephesians</option>
+              </select>
+
+              <button id="start-quiz-button" class="primary-button">
+                Start quiz
+              </button>
+            </div>
+
+            <div id="quiz-active" class="hidden">
+              <div class="quiz-topline">
+                <span id="question-count" class="question-count"></span>
+                <span id="timer" class="timer">30 seconds</span>
+              </div>
+
+              <h2 id="question-text" class="question"></h2>
+              <div id="options" class="options"></div>
+            </div>
+
+            <div id="quiz-finished" class="hidden">
+              <div class="eyebrow">Quiz complete</div>
+              <h2>Well done.</h2>
+              <p id="quiz-result"></p>
+
+              <button id="new-quiz-button" class="primary-button">
+                Choose another Bible book
+              </button>
+            </div>
+          </div>
+
+          <aside class="side-card">
+            <div class="eyebrow">Daily ranking</div>
+            <h3>Leaderboard</h3>
+
+            <ol id="leaderboard" class="leaderboard">
+              <li>Loading...</li>
+            </ol>
+          </aside>
+        </div>
+      </section>
+
+      <section id="chat-view" class="hidden">
+        <div class="chat-layout">
+          <div class="panel">
+            <div class="eyebrow">Fellowship chat</div>
+            <h2>Encourage one another.</h2>
+
+            <div id="chat-messages" class="chat-messages">
+              <div class="empty-state">Loading messages...</div>
+            </div>
+
+            <form id="chat-form" class="chat-form">
+              <input
+                id="chat-input"
+                maxlength="500"
+                placeholder="Share an encouragement..."
+                required
+              >
+
+              <button class="primary-button" type="submit">
+                Send
+              </button>
+            </form>
+          </div>
+
+          <aside class="side-card">
+            <div class="eyebrow">Community care</div>
+            <h3>Keep the conversation kind.</h3>
+            <p>
+              Share scripture, encouragement, prayer requests, and helpful
+              words with the youth fellowship.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="members-view" class="hidden">
+        <div class="panel">
+          <div class="eyebrow">Youth directory</div>
+          <h2>Who is here today?</h2>
+          <p>Members are considered online when they have been active recently.</p>
+
+          <div id="members" class="members">
+            <div class="empty-state">Loading members...</div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+    import {
+      getAuth,
+      setPersistence,
+      browserSessionPersistence,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signInAnonymously,
+      sendPasswordResetEmail,
+      signOut,
+      onAuthStateChanged
+    } from
+      "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDoc,
+      setDoc,
+      addDoc,
+      onSnapshot,
+      query,
+      orderBy,
+      limit,
+      serverTimestamp
+    } from
+      "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsboUPPOzxoBxHbfPm6UmK228OvZMJMDk",
+      authDomain: "gog-youth-quiz.firebaseapp.com",
+      projectId: "gog-youth-quiz",
+      storageBucket: "gog-youth-quiz.firebasestorage.app",
+      messagingSenderId: "401777193075",
+      appId: "1:401777193075:web:c7ac242cc6e934ca113a06",
+      measurementId: "G-CZ2QFD4KDY"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const questions = [
+      {
+        book: "Proverbs",
+        text: "According to Proverbs 1:7, what is the beginning of knowledge?",
+        options: [
+          "The fear of the Lord",
+          "Getting a university degree",
+          "Obeying parents",
+          "Hard work"
+        ],
+        answer: "The fear of the Lord"
+      },
+      {
+        book: "Daniel",
+        text: "What did Daniel resolve not to defile himself with?",
+        options: [
+          "The king's royal food and wine",
+          "Pagan idols",
+          "Foreign clothing",
+          "Bad company"
+        ],
+        answer: "The king's royal food and wine"
+      },
+      {
+        book: "Psalms",
+        text: "According to Psalm 119:9, how can a young person keep their way pure?",
+        options: [
+          "By living according to God's word",
+          "By avoiding every mistake",
+          "By listening to elders only",
+          "By strict discipline"
+        ],
+        answer: "By living according to God's word"
+      },
+      {
+        book: "Genesis",
+        text: "Who built an ark to save his family and animals from the flood?",
+        options: ["Noah", "Abraham", "Moses", "Adam"],
+        answer: "Noah"
+      },
+      {
+        book: "Genesis",
+        text: "What sign did God give Noah after the flood?",
+        options: [
+          "A rainbow",
+          "A burning bush",
+          "A white dove",
+          "A pillar of cloud"
+        ],
+        answer: "A rainbow"
+      },
+      {
+        book: "Daniel",
+        text: "Into what kind of den was Daniel thrown?",
+        options: [
+          "A den of lions",
+          "A pit of fire",
+          "A prison cell",
+          "A dark cave"
+        ],
+        answer: "A den of lions"
+      },
+      {
+        book: "Proverbs",
+        text: "According to Proverbs 3:5, where should you not lean?",
+        options: [
+          "On your own understanding",
+          "On your friends",
+          "On your wealth",
+          "On your strength"
+        ],
+        answer: "On your own understanding"
+      },
+      {
+        book: "Matthew",
+        text: "Jesus said the meek will inherit what?",
+        options: [
+          "The earth",
+          "Heaven",
+          "Great wealth",
+          "Wisdom"
+        ],
+        answer: "The earth"
+      },
+      {
+        book: "John",
+        text: "What is the shortest verse in the Bible?",
+        options: [
+          "Jesus wept.",
+          "God is love.",
+          "Rejoice always.",
+          "Pray continually."
+        ],
+        answer: "Jesus wept."
+      },
+      {
+        book: "Ephesians",
+        text: "What are children commanded to do in the Lord?",
+        options: [
+          "Obey their parents",
+          "Seek wealth wisely",
+          "Leave home early",
+          "Avoid all questions"
+        ],
+        answer: "Obey their parents"
+      },
+      {
+        book: "Proverbs",
+        text: "What kind of answer turns away wrath?",
+        options: [
+          "A gentle answer",
+          "A loud reply",
+          "A firm warning",
+          "Total silence"
+        ],
+        answer: "A gentle answer"
+      },
+      {
+        book: "Psalms",
+        text: "According to Psalm 23:1, who is the shepherd?",
+        options: [
+          "The Lord",
+          "King David",
+          "Moses",
+          "An angel"
+        ],
+        answer: "The Lord"
+      }
+    ];
+
+    const state = {
+      profile: null,
+      activeUid: null,
+      sessionNumber: 0,
+      quizQuestions: [],
+      questionIndex: 0,
+      scoreThisQuiz: 0,
+      secondsLeft: 30,
+      timerId: null,
+      answerLocked: false,
+      heartbeatId: null,
+      unsubscribeChat: null,
+      unsubscribeMembers: null,
+      unsubscribeLeaderboard: null
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function todayKey() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function createUniqueId(prefix = "GOG") {
+      const bytes = crypto.getRandomValues(new Uint8Array(4));
+
+      return prefix + "-" + Array.from(bytes)
+        .map((byte) => byte.toString(16).padStart(2, "0"))
+        .join("")
+        .toUpperCase();
+    }
+
+    function showMessage(message, isError = true) {
+      $("auth-message").textContent = message;
+      $("auth-message").style.color =
+        isError ? "var(--red)" : "var(--green)";
+    }
+
+    function firebaseError(error) {
+      const messages = {
+        "auth/email-already-in-use":
+          "This email address is already registered.",
+        "auth/invalid-email":
+          "Please enter a valid email address.",
+        "auth/weak-password":
+          "Password must contain at least six characters.",
+        "auth/invalid-credential":
+          "The email or password is incorrect.",
+        "auth/operation-not-allowed":
+          "Anonymous authentication is not enabled.",
+        "auth/api-key-not-valid":
+          "The Firebase API key is invalid.",
+        "permission-denied":
+          "Firestore permission was denied. Check your rules."
+      };
+
+      return messages[error.code] || error.message;
+    }
+
+    function clearListeners() {
+      if ($.unsubscribeChat) {
+        $.unsubscribeChat();
+      }
+
+      if (state.unsubscribeChat) {
+        state.unsubscribeChat();
+        state.unsubscribeChat = null;
+      }
+
+      if (state.unsubscribeMembers) {
+        state.unsubscribeMembers();
+        state.unsubscribeMembers = null;
+      }
+
+      if (state.unsubscribeLeaderboard) {
+        state.unsubscribeLeaderboard();
+        state.unsubscribeLeaderboard = null;
+      }
+    }
+
+    function clearPresence() {
+      if (state.heartbeatId) {
+        clearInterval(state.heartbeatId);
+        state.heartbeatId = null;
+      }
+    }
+
+    function resetAppState() {
+      clearInterval(state.timerId);
+      clearPresence();
+      clearListeners();
+
+      state.profile = null;
+      state.activeUid = null;
+      state.quizQuestions = [];
+      state.questionIndex = 0;
+      state.scoreThisQuiz = 0;
+      state.answerLocked = false;
+
+      $("app-screen").classList.add("hidden");
+      $("navbar").classList.add("hidden");
+      $("auth-screen").classList.remove("hidden");
+    }
+
+    async function registerUser(event) {
+      event.preventDefault();
+
+      const firstName = $("register-first-name").value.trim();
+      const nickname = $("register-nickname").value.trim();
+      const email = $("register-email").value.trim();
+      const password = $("register-password").value;
+
+      try {
+        showMessage("Creating your account...", false);
+
+        const result =
+          await createUserWithEmailAndPassword(auth, email, password);
+
+        await setDoc(doc(db, "users", result.user.uid), {
+          uid: result.user.uid,
+          firstName,
+          nickname,
+          email,
+          uniqueId: createUniqueId("GOG"),
+          isGuest: false,
+          dailyPoints: 0,
+          questionsAnswered: 0,
+          currentStreak: 0,
+          scoreDate: todayKey(),
+          lastSeenAt: serverTimestamp(),
+          createdAt: serverTimestamp()
+        });
+      } catch (error) {
+        showMessage(firebaseError(error));
+      }
+    }
+
+    async function loginUser(event) {
+      event.preventDefault();
+
+      const email = $("login-email").value.trim();
+      const password = $("login-password").value;
+
+      try {
+        showMessage("Signing you in...", false);
+
+        if (auth.currentUser) {
+          await signOut(auth);
+        }
+
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (error) {
+        showMessage(firebaseError(error));
+      }
+    }
+
+    async function continueAsGuest() {
+      const button = $("guest-button");
+
+      try {
+        button.disabled = true;
+        showMessage("Preparing guest access...", false);
+
+        if (auth.currentUser) {
+          await signOut(auth);
+        }
+
+        const result = await signInAnonymously(auth);
+        const userReference = doc(db, "users", result.user.uid);
+        const existing = await getDoc(userReference);
+
+        if (!existing.exists()) {
+          const guestId = createUniqueId("GUEST");
+
+          await setDoc(userReference, {
+            uid: result.user.uid,
+            firstName: "Guest",
+            nickname: guestId,
+            email: null,
+            uniqueId: guestId,
+            isGuest: true,
+            dailyPoints: 0,
+            questionsAnswered: 0,
+            currentStreak: 0,
+            scoreDate: todayKey(),
+            lastSeenAt: serverTimestamp(),
+            createdAt: serverTimestamp()
+          });
+        }
+      } catch (error) {
+        showMessage(firebaseError(error));
+        button.disabled = false;
+      }
+    }
+
+    async function resetPassword() {
+      const email = $("login-email").value.trim();
+
+      if (!email) {
+        showMessage("Enter your email address first.");
+        return;
+      }
+
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showMessage("Password reset email sent.", false);
+      } catch (error) {
+        showMessage(firebaseError(error));
+      }
+    }
+
+    async function logoutUser() {
+      resetAppState();
+
+      try {
+        await signOut(auth);
+        showMessage("You have been logged out.", false);
+      } catch (error) {
+        showMessage("Logout failed. Please refresh the page.");
+      }
+    }
+
+    async function loadProfile(user) {
+      const uid = user.uid;
+      const session = state.sessionNumber;
+      const snapshot = await getDoc(doc(db, "users", uid));
+
+      if (
+        auth.currentUser?.uid !== uid ||
+        state.sessionNumber !== session
+      ) {
+        return;
+      }
+
+      if (!snapshot.exists()) {
+        await signOut(auth);
+        showMessage("Your profile was not found.");
+        return;
+      }
+
+      const data = snapshot.data();
+
+      if (data.uid !== uid) {
+        await signOut(auth);
+        showMessage("Account verification failed.");
+        return;
+      }
+
+      state.activeUid = uid;
+      state.profile = {
+        uid,
+        ...data
+      };
+
+      if (state.profile.scoreDate !== todayKey()) {
+        state.profile.dailyPoints = 0;
+        state.profile.questionsAnswered = 0;
+        state.profile.currentStreak = 0;
+        state.profile.scoreDate = todayKey();
+
+        await setDoc(
+          doc(db, "users", uid),
+          {
+            dailyPoints: 0,
+            questionsAnswered: 0,
+            currentStreak: 0,
+            scoreDate: todayKey(),
+            lastSeenAt: serverTimestamp()
+          },
+          { merge: true }
+        );
+      }
+
+      $("auth-screen").classList.add("hidden");
+      $("app-screen").classList.remove("hidden");
+      $("navbar").classList.remove("hidden");
+
+      $("welcome-heading").textContent =
+        `Welcome, ${state.profile.nickname}.`;
+
+      $("profile-id").textContent =
+        state.profile.isGuest
+          ? `${state.profile.uniqueId} · Guest mode`
+          : `${state.profile.firstName} · ${state.profile.uniqueId}`;
+
+      updateStats();
+      startPresence();
+      subscribeLeaderboard();
+      subscribeChat();
+      subscribeMembers();
+    }
+
+    function updateStats() {
+      $("today-score").textContent =
+        state.profile?.dailyPoints || 0;
+
+      $("questions-answered").textContent =
+        state.profile?.questionsAnswered || 0;
+
+      $("current-streak").textContent =
+        state.profile?.currentStreak || 0;
+    }
+
+    function startPresence() {
+      clearPresence();
+
+      state.heartbeatId = setInterval(async () => {
+        if (!auth.currentUser || auth.currentUser.uid !== state.activeUid) {
+          return;
+        }
+
+        await setDoc(
+          doc(db, "users", state.activeUid),
+          { lastSeenAt: serverTimestamp() },
+          { merge: true }
+        );
+      }, 45000);
+    }
+
+    function online(lastSeenAt) {
+      return lastSeenAt?.toMillis &&
+        Date.now() - lastSeenAt.toMillis() < 90000;
+    }
+
+    function subscribeLeaderboard() {
+      state.unsubscribeLeaderboard = onSnapshot(
+        collection(db, "users"),
+        (snapshot) => {
+          const users = snapshot.docs
+            .map((item) => item.data())
+            .filter((user) => user.scoreDate === todayKey())
+            .sort((a, b) =>
+              (b.dailyPoints || 0) - (a.dailyPoints || 0)
+            )
+            .slice(0, 10);
+
+          $("leaderboard").replaceChildren();
+
+          users.forEach((user) => {
+            const item = document.createElement("li");
+
+            item.textContent =
+              `${user.nickname || "Youth member"} — ` +
+              `${user.dailyPoints || 0} pts`;
+
+            $("leaderboard").appendChild(item);
+          });
+        }
+      );
+    }
+
+    function subscribeMembers() {
+      state.unsubscribeMembers = onSnapshot(
+        collection(db, "users"),
+        (snapshot) => {
+          $("members").replaceChildren();
+
+          snapshot.docs
+            .map((item) => item.data())
+            .sort((a, b) =>
+              (a.nickname || "").localeCompare(b.nickname || "")
+            )
+            .forEach((member) => {
+              const item = document.createElement("div");
+              item.className = "member";
+
+              const name = document.createElement("div");
+
+              const memberName = document.createElement("span");
+              memberName.className = "member-name";
+              memberName.textContent =
+                `${member.nickname || "Youth member"} ` +
+                `(${member.firstName || ""})`;
+
+              const memberId = document.createElement("span");
+              memberId.className = "member-id";
+              memberId.textContent = member.uniqueId || "";
+
+              name.append(memberName, memberId);
+
+              const status = document.createElement("span");
+              const isOnline = online(member.lastSeenAt);
+
+              status.className =
+                `status ${isOnline ? "online" : ""}`;
+
+              status.textContent =
+                isOnline ? "Online" : "Offline";
+
+              item.append(name, status);
+              $("members").appendChild(item);
+            });
+        }
+      );
+    }
+
+    function subscribeChat() {
+      state.unsubscribeChat = onSnapshot(
+        query(
+          collection(db, "chats"),
+          orderBy("createdAtMs", "asc"),
+          limit(100)
+        ),
+        (snapshot) => {
+          $("chat-messages").replaceChildren();
+
+          snapshot.docs.forEach((item) => {
+            const message = item.data();
+            const wrapper = document.createElement("div");
+
+            wrapper.className =
+              `message ${
+                message.uid === state.activeUid ? "mine" : ""
+              }`;
+
+            const author = document.createElement("span");
+            author.className = "message-author";
+            author.textContent =
+              message.nickname || "Youth member";
+
+            const text = document.createElement("div");
+            text.className = "message-text";
+            text.textContent = message.text || "";
+
+            const time = document.createElement("span");
+            time.className = "message-time";
+            time.textContent = message.createdAtMs
+              ? new Date(message.createdAtMs).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit"
+                })
+              : "Sending...";
+
+            wrapper.append(author, text, time);
+            $("chat-messages").appendChild(wrapper);
+          });
+
+          $("chat-messages").scrollTop =
+            $("chat-messages").scrollHeight;
+        }
+      );
+    }
+
+    async function sendMessage(event) {
+      event.preventDefault();
+
+      const input = $("chat-input");
+      const button = event.submitter;
+      const text = input.value.trim();
+
+      if (!text || !auth.currentUser) {
+        return;
+      }
+
+      button.disabled = true;
+      input.disabled = true;
+
+      try {
+        await addDoc(collection(db, "chats"), {
+          uid: state.activeUid,
+          nickname: state.profile.nickname,
+          text,
+          createdAtMs: Date.now(),
+          createdAt: serverTimestamp()
+        });
+
+        input.value = "";
+      } catch (error) {
+        alert("Message was not sent. Check Firestore rules.");
+      } finally {
+        button.disabled = false;
+        input.disabled = false;
+        input.focus();
+      }
+    }
+
+    function shuffle(list) {
+      return [...list].sort(() => Math.random() - .5);
+    }
+
+    function startQuiz() {
+      const selectedBook = $("book-filter").value;
+
+      const chosen = selectedBook === "All"
+        ? [...questions]
+        : questions.filter((question) =>
+            question.book === selectedBook
+          );
+
+      const remaining = questions.filter(
+        (question) => !chosen.includes(question)
+      );
+
+      state.quizQuestions = [
+        ...shuffle(chosen),
+        ...shuffle(remaining)
+      ].slice(0, 10);
+
+      state.questionIndex = 0;
+      state.scoreThisQuiz = 0;
+      state.answerLocked = false;
+
+      $("quiz-setup").classList.add("hidden");
+      $("quiz-finished").classList.add("hidden");
+      $("quiz-active").classList.remove("hidden");
+
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const question =
+        state.quizQuestions[state.questionIndex];
+
+      if (!question) {
+        finishQuiz();
+        return;
+      }
+
+      state.answerLocked = false;
+
+      $("question-count").textContent =
+        `Question ${state.questionIndex + 1} of ` +
+        `${state.quizQuestions.length}`;
+
+      $("question-text").textContent =
+        `${question.book}: ${question.text}`;
+
+      $("options").replaceChildren();
+
+      question.options.forEach((option) => {
+        const button = document.createElement("button");
+
+        button.className = "option";
+        button.type = "button";
+        button.textContent = option;
+        button.addEventListener("click", () => {
+          answerQuestion(option);
+        });
+
+        $("options").appendChild(button);
+      });
+
+      startTimer();
+    }
+
+    function startTimer() {
+      clearInterval(state.timerId);
+
+      state.secondsLeft = 30;
+      updateTimer();
+
+      state.timerId = setInterval(() => {
+        state.secondsLeft -= 1;
+        updateTimer();
+
+        if (state.secondsLeft <= 0) {
+          clearInterval(state.timerId);
+          answerQuestion(null);
+        }
+      }, 1000);
+    }
+
+    function updateTimer() {
+      $("timer").textContent =
+        `${state.secondsLeft} seconds`;
+
+      $("timer").classList.toggle(
+        "warning",
+        state.secondsLeft <= 10
+      );
+    }
+
+    async function answerQuestion(answer) {
+      if (state.answerLocked) {
+        return;
+      }
+
+      state.answerLocked = true;
+      clearInterval(state.timerId);
+
+      const question =
+        state.quizQuestions[state.questionIndex];
+
+      const correct = answer === question.answer;
+
+      if (correct) {
+        state.scoreThisQuiz += 1;
+        state.profile.dailyPoints =
+          (state.profile.dailyPoints || 0) + 1;
+        state.profile.currentStreak =
+          (state.profile.currentStreak || 0) + 1;
+      } else {
+        state.profile.currentStreak = 0;
+      }
+
+      state.profile.questionsAnswered =
+        (state.profile.questionsAnswered || 0) + 1;
+
+      updateStats();
+
+      state.questionIndex += 1;
+      showQuestion();
+
+      try {
+        await setDoc(
+          doc(db, "users", state.activeUid),
+          {
+            dailyPoints: state.profile.dailyPoints,
+            questionsAnswered: state.profile.questionsAnswered,
+            currentStreak: state.profile.currentStreak,
+            scoreDate: todayKey(),
+            lastSeenAt: serverTimestamp()
+          },
+          { merge: true }
+        );
+      } catch (error) {
+        console.error("Score save error:", error);
+      }
+    }
+
+    function finishQuiz() {
+      clearInterval(state.timerId);
+
+      $("quiz-active").classList.add("hidden");
+      $("quiz-finished").classList.remove("hidden");
+
+      $("quiz-result").textContent =
+        `Your total score is ${state.scoreThisQuiz} out of ` +
+        `${state.quizQuestions.length}.`;
+    }
+
+    function chooseAnotherBook() {
+      clearInterval(state.timerId);
+
+      state.quizQuestions = [];
+      state.questionIndex = 0;
+      state.scoreThisQuiz = 0;
+      state.answerLocked = false;
+
+      $("quiz-active").classList.add("hidden");
+      $("quiz-finished").classList.add("hidden");
+      $("quiz-setup").classList.remove("hidden");
+
+      $("question-text").textContent = "";
+      $("question-count").textContent = "";
+      $("options").replaceChildren();
+      $("timer").textContent = "30 seconds";
+      $("timer").classList.remove("warning");
+
+      $("book-filter").focus();
+    }
+
+    $("register-tab").addEventListener("click", () => {
+      $("register-tab").classList.add("active");
+      $("login-tab").classList.remove("active");
+      $("register-form").classList.remove("hidden");
+      $("login-form").classList.add("hidden");
+    });
+
+    $("login-tab").addEventListener("click", () => {
+      $("login-tab").classList.add("active");
+      $("register-tab").classList.remove("active");
+      $("login-form").classList.remove("hidden");
+      $("register-form").classList.add("hidden");
+    });
+
+    $("register-form").addEventListener("submit", registerUser);
+    $("login-form").addEventListener("submit", loginUser);
+    $("guest-button").addEventListener("click", continueAsGuest);
+    $("reset-password-button").addEventListener("click", resetPassword);
+    $("logout-button").addEventListener("click", logoutUser);
+    $("chat-form").addEventListener("submit", sendMessage);
+    $("start-quiz-button").addEventListener("click", startQuiz);
+    $("new-quiz-button").addEventListener("click", chooseAnotherBook);
+
+    document.querySelectorAll("[data-view]").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("#quiz-view, #chat-view, #members-view")
+          .forEach((view) => view.classList.add("hidden"));
+
+        $(button.dataset.view).classList.remove("hidden");
+
+        document.querySelectorAll("[data-view]").forEach((item) => {
+          item.classList.toggle("active", item === button);
+        });
+      });
+    });
+
+    setPersistence(auth, browserSessionPersistence).catch(console.error);
+
+    onAuthStateChanged(auth, async (user) => {
+      state.sessionNumber += 1;
+
+      if (!user) {
+        resetAppState();
+        return;
+      }
+
+      try {
+        await loadProfile(user);
+      } catch (error) {
+        console.error(error);
+        resetAppState();
+        showMessage(firebaseError(error));
+      }
+    });
+  </script>
+</body>
+</html>
