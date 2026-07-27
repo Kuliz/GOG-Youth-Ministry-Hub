@@ -9,6 +9,7 @@
     :root {
       --navy: #111126;
       --purple: #6500f5;
+      --purple-dark: #4f00c4;
       --gold: #f5b400;
       --ink: #191936;
       --muted: #65708a;
@@ -120,11 +121,6 @@
       border-color: var(--purple);
     }
 
-    .nav-button.logout {
-      color: #fecaca;
-      border-color: #7f1d1d;
-    }
-
     main {
       width: min(1180px, calc(100% - 32px));
       margin: 35px auto 70px;
@@ -152,7 +148,6 @@
       margin: 14px 0 22px;
       font-size: clamp(3rem, 6vw, 5.8rem);
       line-height: .98;
-      letter-spacing: -.04em;
     }
 
     h2 {
@@ -196,61 +191,13 @@
       padding: 28px;
     }
 
-    .tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      margin-bottom: 22px;
-      padding: 5px;
-      background: #edf0f7;
-      border-radius: 11px;
+    .auth-card {
+      text-align: center;
     }
 
-    .tab {
-      padding: 10px;
-      color: var(--muted);
-      background: transparent;
-      border: 0;
-      border-radius: 8px;
-      font-family: Arial, sans-serif;
-      font-weight: bold;
-    }
-
-    .tab.active {
-      color: var(--ink);
-      background: white;
-      box-shadow: 0 2px 7px rgba(15, 23, 42, .1);
-    }
-
-    label {
-      display: block;
-      margin: 14px 0 6px;
-      color: #475569;
-      font-family: Arial, sans-serif;
-      font-size: .82rem;
-      font-weight: bold;
-    }
-
-    input,
-    select {
-      width: 100%;
-      padding: 12px 13px;
-      color: var(--ink);
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      outline: none;
-    }
-
-    input:focus,
-    select:focus {
-      border-color: var(--purple);
-      box-shadow: 0 0 0 3px rgba(101, 0, 245, .12);
-    }
-
+    .guest-button,
     .primary-button,
-    .secondary-button,
-    .guest-button {
+    .secondary-button {
       width: 100%;
       margin-top: 16px;
       padding: 13px 16px;
@@ -260,13 +207,15 @@
       font-weight: bold;
     }
 
+    .guest-button,
     .primary-button {
       color: white;
       background: var(--purple);
     }
 
+    .guest-button:hover,
     .primary-button:hover {
-      background: #4f00c4;
+      background: var(--purple-dark);
     }
 
     .secondary-button {
@@ -274,35 +223,10 @@
       background: #e8ecf6;
     }
 
-    .guest-button {
-      color: #713f12;
-      background: #fff8c9;
-      border: 1px solid #f0c600;
-    }
-
-    .guest-divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 22px 0 14px;
-      color: #94a3b8;
-      font-family: Arial, sans-serif;
-      font-size: .8rem;
-      text-transform: uppercase;
-    }
-
-    .guest-divider::before,
-    .guest-divider::after {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-      content: "";
-    }
-
     .guest-note {
       color: var(--muted);
       font-family: Arial, sans-serif;
-      font-size: .76rem;
+      font-size: .8rem;
       text-align: center;
     }
 
@@ -563,6 +487,32 @@
       text-align: center;
     }
 
+    label {
+      display: block;
+      margin: 18px 0 7px;
+      color: #475569;
+      font-family: Arial, sans-serif;
+      font-size: .82rem;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px 13px;
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(101, 0, 245, .12);
+    }
+
     @media (max-width: 850px) {
       .auth-layout,
       .content-grid,
@@ -627,8 +577,8 @@
         Members
       </button>
 
-      <button id="logout-button" class="nav-button logout">
-        Logout
+      <button id="logout-button" class="nav-button">
+        Leave
       </button>
     </div>
   </nav>
@@ -649,71 +599,28 @@
         </p>
 
         <p class="quote">
-          “Let no one despise your youth, but be an example to the believers.”
+          "Let no one despise your youth, but be an example to the believers."
           <br>
           1 Timothy 4:12
         </p>
       </div>
 
-      <div class="panel">
-        <div class="tabs">
-          <button id="register-tab" class="tab active">
-            Create account
-          </button>
+      <div class="panel auth-card">
+        <div class="eyebrow">Welcome</div>
 
-          <button id="login-tab" class="tab">
-            Sign in
-          </button>
-        </div>
+        <h2>Enter the hub</h2>
 
-        <form id="register-form">
-          <h2>Join the hub</h2>
-
-          <label for="register-first-name">First name</label>
-          <input id="register-first-name" required>
-
-          <label for="register-nickname">Nickname</label>
-          <input id="register-nickname" required>
-
-          <label for="register-email">Email address</label>
-          <input id="register-email" type="email" required>
-
-          <label for="register-password">Password</label>
-          <input id="register-password" type="password" minlength="6" required>
-
-          <button class="primary-button" type="submit">
-            Create my account
-          </button>
-        </form>
-
-        <form id="login-form" class="hidden">
-          <h2>Welcome back</h2>
-
-          <label for="login-email">Email address</label>
-          <input id="login-email" type="email" required>
-
-          <label for="login-password">Password</label>
-          <input id="login-password" type="password" required>
-
-          <button class="primary-button" type="submit">
-            Sign in
-          </button>
-
-          <button id="reset-password-button" class="secondary-button" type="button">
-            Reset password
-          </button>
-        </form>
-
-        <div class="guest-divider">
-          <span>or</span>
-        </div>
+        <p>
+          No account is needed. Enter as a guest and start participating
+          immediately.
+        </p>
 
         <button id="guest-button" class="guest-button" type="button">
-          Continue as guest
+          Enter as guest
         </button>
 
         <p class="guest-note">
-          Guests can play quizzes, use the chat, view the leaderboard, and see members.
+          Your local guest profile is saved in this browser.
         </p>
 
         <p id="auth-message" class="form-message"></p>
@@ -723,7 +630,9 @@
     <section id="app-screen" class="hidden">
       <div class="dashboard-heading">
         <div class="eyebrow">Youth ministry community</div>
+
         <h2 id="welcome-heading">Welcome</h2>
+
         <p id="profile-id"></p>
       </div>
 
@@ -749,7 +658,9 @@
           <div class="quiz-card">
             <div id="quiz-setup">
               <div class="eyebrow">Bible Quiz Arena</div>
+
               <h2>Choose your Bible focus.</h2>
+
               <p>
                 Answer 10 questions. Each question has 30 seconds.
               </p>
@@ -779,12 +690,15 @@
               </div>
 
               <h2 id="question-text" class="question"></h2>
+
               <div id="options" class="options"></div>
             </div>
 
             <div id="quiz-finished" class="hidden">
               <div class="eyebrow">Quiz complete</div>
+
               <h2>Well done.</h2>
+
               <p id="quiz-result"></p>
 
               <button id="new-quiz-button" class="primary-button">
@@ -795,11 +709,10 @@
 
           <aside class="side-card">
             <div class="eyebrow">Daily ranking</div>
+
             <h3>Leaderboard</h3>
 
-            <ol id="leaderboard" class="leaderboard">
-              <li>Loading...</li>
-            </ol>
+            <ol id="leaderboard" class="leaderboard"></ol>
           </aside>
         </div>
       </section>
@@ -808,11 +721,10 @@
         <div class="chat-layout">
           <div class="panel">
             <div class="eyebrow">Fellowship chat</div>
+
             <h2>Encourage one another.</h2>
 
-            <div id="chat-messages" class="chat-messages">
-              <div class="empty-state">Loading messages...</div>
-            </div>
+            <div id="chat-messages" class="chat-messages"></div>
 
             <form id="chat-form" class="chat-form">
               <input
@@ -830,7 +742,9 @@
 
           <aside class="side-card">
             <div class="eyebrow">Community care</div>
+
             <h3>Keep the conversation kind.</h3>
+
             <p>
               Share scripture, encouragement, prayer requests, and helpful
               words with the youth fellowship.
@@ -842,62 +756,35 @@
       <section id="members-view" class="hidden">
         <div class="panel">
           <div class="eyebrow">Youth directory</div>
-          <h2>Who is here today?</h2>
-          <p>Members are considered online when they have been active recently.</p>
 
-          <div id="members" class="members">
-            <div class="empty-state">Loading members...</div>
-          </div>
+          <h2>Who is here today?</h2>
+
+          <p>
+            These are guest profiles saved in this browser.
+          </p>
+
+          <div id="members" class="members"></div>
         </div>
       </section>
     </section>
   </main>
 
-  <script type="module">
-    import { initializeApp } from
-      "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-
-    import {
-      getAuth,
-      setPersistence,
-      browserSessionPersistence,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      signInAnonymously,
-      sendPasswordResetEmail,
-      signOut,
-      onAuthStateChanged
-    } from
-      "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-    import {
-      getFirestore,
-      collection,
-      doc,
-      getDoc,
-      setDoc,
-      addDoc,
-      onSnapshot,
-      query,
-      orderBy,
-      limit,
-      serverTimestamp
-    } from
-      "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAsboUPPOzxoBxHbfPm6UmK228OvZMJMDk",
-      authDomain: "gog-youth-quiz.firebaseapp.com",
-      projectId: "gog-youth-quiz",
-      storageBucket: "gog-youth-quiz.firebasestorage.app",
-      messagingSenderId: "401777193075",
-      appId: "1:401777193075:web:c7ac242cc6e934ca113a06",
-      measurementId: "G-CZ2QFD4KDY"
+  <script>
+    const STORAGE_KEYS = {
+      profile: "gog_guest_profile",
+      profiles: "gog_guest_profiles",
+      messages: "gog_chat_messages"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    const state = {
+      profile: null,
+      quizQuestions: [],
+      questionIndex: 0,
+      scoreThisQuiz: 0,
+      secondsLeft: 30,
+      timerId: null,
+      answerLocked: false
+    };
 
     const questions = [
       {
@@ -1029,35 +916,31 @@
       }
     ];
 
-    const state = {
-      profile: null,
-      activeUid: null,
-      sessionNumber: 0,
-      quizQuestions: [],
-      questionIndex: 0,
-      scoreThisQuiz: 0,
-      secondsLeft: 30,
-      timerId: null,
-      answerLocked: false,
-      heartbeatId: null,
-      unsubscribeChat: null,
-      unsubscribeMembers: null,
-      unsubscribeLeaderboard: null
-    };
-
     const $ = (id) => document.getElementById(id);
 
     function todayKey() {
       return new Date().toISOString().slice(0, 10);
     }
 
-    function createUniqueId(prefix = "GOG") {
-      const bytes = crypto.getRandomValues(new Uint8Array(4));
-
-      return prefix + "-" + Array.from(bytes)
-        .map((byte) => byte.toString(16).padStart(2, "0"))
-        .join("")
+    function createGuestId() {
+      const random = Math.random()
+        .toString(36)
+        .slice(2, 8)
         .toUpperCase();
+
+      return `GUEST-${random}`;
+    }
+
+    function readStorage(key, fallback) {
+      try {
+        return JSON.parse(localStorage.getItem(key)) || fallback;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function writeStorage(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
     }
 
     function showMessage(message, isError = true) {
@@ -1066,241 +949,64 @@
         isError ? "var(--red)" : "var(--green)";
     }
 
-    function firebaseError(error) {
-      const messages = {
-        "auth/email-already-in-use":
-          "This email address is already registered.",
-        "auth/invalid-email":
-          "Please enter a valid email address.",
-        "auth/weak-password":
-          "Password must contain at least six characters.",
-        "auth/invalid-credential":
-          "The email or password is incorrect.",
-        "auth/operation-not-allowed":
-          "Anonymous authentication is not enabled.",
-        "auth/api-key-not-valid":
-          "The Firebase API key is invalid.",
-        "permission-denied":
-          "Firestore permission was denied. Check your rules."
+    function getProfiles() {
+      return readStorage(STORAGE_KEYS.profiles, []);
+    }
+
+    function saveProfile() {
+      const profiles = getProfiles();
+      const index = profiles.findIndex(
+        (profile) => profile.uniqueId === state.profile.uniqueId
+      );
+
+      if (index >= 0) {
+        profiles[index] = state.profile;
+      } else {
+        profiles.push(state.profile);
+      }
+
+      writeStorage(STORAGE_KEYS.profiles, profiles);
+      writeStorage(STORAGE_KEYS.profile, state.profile);
+    }
+
+    function createGuestProfile() {
+      const existing = readStorage(STORAGE_KEYS.profile, null);
+
+      if (existing) {
+        existing.lastSeenAt = Date.now();
+        state.profile = existing;
+        saveProfile();
+        return;
+      }
+
+      state.profile = {
+        firstName: "Guest",
+        nickname: createGuestId(),
+        uniqueId: createGuestId(),
+        isGuest: true,
+        dailyPoints: 0,
+        questionsAnswered: 0,
+        currentStreak: 0,
+        scoreDate: todayKey(),
+        lastSeenAt: Date.now()
       };
 
-      return messages[error.code] || error.message;
+      state.profile.nickname = state.profile.uniqueId;
+      saveProfile();
     }
 
-    function clearListeners() {
-      if ($.unsubscribeChat) {
-        $.unsubscribeChat();
-      }
-
-      if (state.unsubscribeChat) {
-        state.unsubscribeChat();
-        state.unsubscribeChat = null;
-      }
-
-      if (state.unsubscribeMembers) {
-        state.unsubscribeMembers();
-        state.unsubscribeMembers = null;
-      }
-
-      if (state.unsubscribeLeaderboard) {
-        state.unsubscribeLeaderboard();
-        state.unsubscribeLeaderboard = null;
-      }
-    }
-
-    function clearPresence() {
-      if (state.heartbeatId) {
-        clearInterval(state.heartbeatId);
-        state.heartbeatId = null;
-      }
-    }
-
-    function resetAppState() {
-      clearInterval(state.timerId);
-      clearPresence();
-      clearListeners();
-
-      state.profile = null;
-      state.activeUid = null;
-      state.quizQuestions = [];
-      state.questionIndex = 0;
-      state.scoreThisQuiz = 0;
-      state.answerLocked = false;
-
-      $("app-screen").classList.add("hidden");
-      $("navbar").classList.add("hidden");
-      $("auth-screen").classList.remove("hidden");
-    }
-
-    async function registerUser(event) {
-      event.preventDefault();
-
-      const firstName = $("register-first-name").value.trim();
-      const nickname = $("register-nickname").value.trim();
-      const email = $("register-email").value.trim();
-      const password = $("register-password").value;
-
-      try {
-        showMessage("Creating your account...", false);
-
-        const result =
-          await createUserWithEmailAndPassword(auth, email, password);
-
-        await setDoc(doc(db, "users", result.user.uid), {
-          uid: result.user.uid,
-          firstName,
-          nickname,
-          email,
-          uniqueId: createUniqueId("GOG"),
-          isGuest: false,
-          dailyPoints: 0,
-          questionsAnswered: 0,
-          currentStreak: 0,
-          scoreDate: todayKey(),
-          lastSeenAt: serverTimestamp(),
-          createdAt: serverTimestamp()
-        });
-      } catch (error) {
-        showMessage(firebaseError(error));
-      }
-    }
-
-    async function loginUser(event) {
-      event.preventDefault();
-
-      const email = $("login-email").value.trim();
-      const password = $("login-password").value;
-
-      try {
-        showMessage("Signing you in...", false);
-
-        if (auth.currentUser) {
-          await signOut(auth);
-        }
-
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (error) {
-        showMessage(firebaseError(error));
-      }
-    }
-
-    async function continueAsGuest() {
+    function enterAsGuest() {
       const button = $("guest-button");
 
-      try {
-        button.disabled = true;
-        showMessage("Preparing guest access...", false);
+      button.disabled = true;
+      showMessage("Opening the hub...", false);
 
-        if (auth.currentUser) {
-          await signOut(auth);
-        }
-
-        const result = await signInAnonymously(auth);
-        const userReference = doc(db, "users", result.user.uid);
-        const existing = await getDoc(userReference);
-
-        if (!existing.exists()) {
-          const guestId = createUniqueId("GUEST");
-
-          await setDoc(userReference, {
-            uid: result.user.uid,
-            firstName: "Guest",
-            nickname: guestId,
-            email: null,
-            uniqueId: guestId,
-            isGuest: true,
-            dailyPoints: 0,
-            questionsAnswered: 0,
-            currentStreak: 0,
-            scoreDate: todayKey(),
-            lastSeenAt: serverTimestamp(),
-            createdAt: serverTimestamp()
-          });
-        }
-      } catch (error) {
-        showMessage(firebaseError(error));
-        button.disabled = false;
-      }
+      createGuestProfile();
+      showApp();
+      button.disabled = false;
     }
 
-    async function resetPassword() {
-      const email = $("login-email").value.trim();
-
-      if (!email) {
-        showMessage("Enter your email address first.");
-        return;
-      }
-
-      try {
-        await sendPasswordResetEmail(auth, email);
-        showMessage("Password reset email sent.", false);
-      } catch (error) {
-        showMessage(firebaseError(error));
-      }
-    }
-
-    async function logoutUser() {
-      resetAppState();
-
-      try {
-        await signOut(auth);
-        showMessage("You have been logged out.", false);
-      } catch (error) {
-        showMessage("Logout failed. Please refresh the page.");
-      }
-    }
-
-    async function loadProfile(user) {
-      const uid = user.uid;
-      const session = state.sessionNumber;
-      const snapshot = await getDoc(doc(db, "users", uid));
-
-      if (
-        auth.currentUser?.uid !== uid ||
-        state.sessionNumber !== session
-      ) {
-        return;
-      }
-
-      if (!snapshot.exists()) {
-        await signOut(auth);
-        showMessage("Your profile was not found.");
-        return;
-      }
-
-      const data = snapshot.data();
-
-      if (data.uid !== uid) {
-        await signOut(auth);
-        showMessage("Account verification failed.");
-        return;
-      }
-
-      state.activeUid = uid;
-      state.profile = {
-        uid,
-        ...data
-      };
-
-      if (state.profile.scoreDate !== todayKey()) {
-        state.profile.dailyPoints = 0;
-        state.profile.questionsAnswered = 0;
-        state.profile.currentStreak = 0;
-        state.profile.scoreDate = todayKey();
-
-        await setDoc(
-          doc(db, "users", uid),
-          {
-            dailyPoints: 0,
-            questionsAnswered: 0,
-            currentStreak: 0,
-            scoreDate: todayKey(),
-            lastSeenAt: serverTimestamp()
-          },
-          { merge: true }
-        );
-      }
-
+    function showApp() {
       $("auth-screen").classList.add("hidden");
       $("app-screen").classList.remove("hidden");
       $("navbar").classList.remove("hidden");
@@ -1309,221 +1015,212 @@
         `Welcome, ${state.profile.nickname}.`;
 
       $("profile-id").textContent =
-        state.profile.isGuest
-          ? `${state.profile.uniqueId} · Guest mode`
-          : `${state.profile.firstName} · ${state.profile.uniqueId}`;
+        `${state.profile.uniqueId} - Guest mode`;
 
       updateStats();
-      startPresence();
       subscribeLeaderboard();
-      subscribeChat();
-      subscribeMembers();
+      renderChat();
+      renderMembers();
+    }
+
+    function leaveHub() {
+      clearInterval(state.timerId);
+      sessionStorage.removeItem("gog_guest_session");
+
+      $("app-screen").classList.add("hidden");
+      $("navbar").classList.add("hidden");
+      $("auth-screen").classList.remove("hidden");
+
+      showMessage("You have left the hub.", false);
     }
 
     function updateStats() {
+      if (state.profile.scoreDate !== todayKey()) {
+        state.profile.dailyPoints = 0;
+        state.profile.questionsAnswered = 0;
+        state.profile.currentStreak = 0;
+        state.profile.scoreDate = todayKey();
+        saveProfile();
+      }
+
       $("today-score").textContent =
-        state.profile?.dailyPoints || 0;
+        state.profile.dailyPoints || 0;
 
       $("questions-answered").textContent =
-        state.profile?.questionsAnswered || 0;
+        state.profile.questionsAnswered || 0;
 
       $("current-streak").textContent =
-        state.profile?.currentStreak || 0;
-    }
-
-    function startPresence() {
-      clearPresence();
-
-      state.heartbeatId = setInterval(async () => {
-        if (!auth.currentUser || auth.currentUser.uid !== state.activeUid) {
-          return;
-        }
-
-        await setDoc(
-          doc(db, "users", state.activeUid),
-          { lastSeenAt: serverTimestamp() },
-          { merge: true }
-        );
-      }, 45000);
-    }
-
-    function online(lastSeenAt) {
-      return lastSeenAt?.toMillis &&
-        Date.now() - lastSeenAt.toMillis() < 90000;
+        state.profile.currentStreak || 0;
     }
 
     function subscribeLeaderboard() {
-      state.unsubscribeLeaderboard = onSnapshot(
-        collection(db, "users"),
-        (snapshot) => {
-          const users = snapshot.docs
-            .map((item) => item.data())
-            .filter((user) => user.scoreDate === todayKey())
-            .sort((a, b) =>
-              (b.dailyPoints || 0) - (a.dailyPoints || 0)
-            )
-            .slice(0, 10);
+      const users = getProfiles()
+        .filter((profile) => profile.scoreDate === todayKey())
+        .sort((first, second) =>
+          (second.dailyPoints || 0) - (first.dailyPoints || 0)
+        )
+        .slice(0, 10);
 
-          $("leaderboard").replaceChildren();
+      $("leaderboard").replaceChildren();
 
-          users.forEach((user) => {
-            const item = document.createElement("li");
-
-            item.textContent =
-              `${user.nickname || "Youth member"} — ` +
-              `${user.dailyPoints || 0} pts`;
-
-            $("leaderboard").appendChild(item);
-          });
-        }
-      );
-    }
-
-    function subscribeMembers() {
-      state.unsubscribeMembers = onSnapshot(
-        collection(db, "users"),
-        (snapshot) => {
-          $("members").replaceChildren();
-
-          snapshot.docs
-            .map((item) => item.data())
-            .sort((a, b) =>
-              (a.nickname || "").localeCompare(b.nickname || "")
-            )
-            .forEach((member) => {
-              const item = document.createElement("div");
-              item.className = "member";
-
-              const name = document.createElement("div");
-
-              const memberName = document.createElement("span");
-              memberName.className = "member-name";
-              memberName.textContent =
-                `${member.nickname || "Youth member"} ` +
-                `(${member.firstName || ""})`;
-
-              const memberId = document.createElement("span");
-              memberId.className = "member-id";
-              memberId.textContent = member.uniqueId || "";
-
-              name.append(memberName, memberId);
-
-              const status = document.createElement("span");
-              const isOnline = online(member.lastSeenAt);
-
-              status.className =
-                `status ${isOnline ? "online" : ""}`;
-
-              status.textContent =
-                isOnline ? "Online" : "Offline";
-
-              item.append(name, status);
-              $("members").appendChild(item);
-            });
-        }
-      );
-    }
-
-    function subscribeChat() {
-      state.unsubscribeChat = onSnapshot(
-        query(
-          collection(db, "chats"),
-          orderBy("createdAtMs", "asc"),
-          limit(100)
-        ),
-        (snapshot) => {
-          $("chat-messages").replaceChildren();
-
-          snapshot.docs.forEach((item) => {
-            const message = item.data();
-            const wrapper = document.createElement("div");
-
-            wrapper.className =
-              `message ${
-                message.uid === state.activeUid ? "mine" : ""
-              }`;
-
-            const author = document.createElement("span");
-            author.className = "message-author";
-            author.textContent =
-              message.nickname || "Youth member";
-
-            const text = document.createElement("div");
-            text.className = "message-text";
-            text.textContent = message.text || "";
-
-            const time = document.createElement("span");
-            time.className = "message-time";
-            time.textContent = message.createdAtMs
-              ? new Date(message.createdAtMs).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit"
-                })
-              : "Sending...";
-
-            wrapper.append(author, text, time);
-            $("chat-messages").appendChild(wrapper);
-          });
-
-          $("chat-messages").scrollTop =
-            $("chat-messages").scrollHeight;
-        }
-      );
-    }
-
-    async function sendMessage(event) {
-      event.preventDefault();
-
-      const input = $("chat-input");
-      const button = event.submitter;
-      const text = input.value.trim();
-
-      if (!text || !auth.currentUser) {
+      if (!users.length) {
+        const item = document.createElement("li");
+        item.textContent = "No scores yet.";
+        $("leaderboard").appendChild(item);
         return;
       }
 
-      button.disabled = true;
-      input.disabled = true;
+      users.forEach((user) => {
+        const item = document.createElement("li");
 
-      try {
-        await addDoc(collection(db, "chats"), {
-          uid: state.activeUid,
-          nickname: state.profile.nickname,
-          text,
-          createdAtMs: Date.now(),
-          createdAt: serverTimestamp()
-        });
+        item.textContent =
+          `${user.nickname} - ${user.dailyPoints || 0} pts`;
 
-        input.value = "";
-      } catch (error) {
-        alert("Message was not sent. Check Firestore rules.");
-      } finally {
-        button.disabled = false;
-        input.disabled = false;
-        input.focus();
+        $("leaderboard").appendChild(item);
+      });
+    }
+
+    function renderMembers() {
+      const members = getProfiles();
+      $("members").replaceChildren();
+
+      if (!members.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.textContent = "No guest members yet.";
+        $("members").appendChild(empty);
+        return;
       }
+
+      members
+        .sort((first, second) =>
+          first.nickname.localeCompare(second.nickname)
+        )
+        .forEach((member) => {
+          const item = document.createElement("div");
+          item.className = "member";
+
+          const name = document.createElement("div");
+
+          const memberName = document.createElement("span");
+          memberName.className = "member-name";
+          memberName.textContent = member.nickname;
+
+          const memberId = document.createElement("span");
+          memberId.className = "member-id";
+          memberId.textContent = member.uniqueId;
+
+          name.append(memberName, memberId);
+
+          const status = document.createElement("span");
+          const isOnline =
+            Date.now() - (member.lastSeenAt || 0) < 90000;
+
+          status.className =
+            `status ${isOnline ? "online" : ""}`;
+
+          status.textContent =
+            isOnline ? "Online" : "Offline";
+
+          item.append(name, status);
+          $("members").appendChild(item);
+        });
+    }
+
+    function getMessages() {
+      return readStorage(STORAGE_KEYS.messages, []);
+    }
+
+    function renderChat() {
+      const messages = getMessages();
+      $("chat-messages").replaceChildren();
+
+      if (!messages.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.textContent =
+          "Be the first person to share some encouragement.";
+        $("chat-messages").appendChild(empty);
+        return;
+      }
+
+      messages.forEach((message) => {
+        const wrapper = document.createElement("div");
+
+        wrapper.className =
+          `message ${
+            message.uniqueId === state.profile.uniqueId ? "mine" : ""
+          }`;
+
+        const author = document.createElement("span");
+        author.className = "message-author";
+        author.textContent = message.nickname;
+
+        const text = document.createElement("div");
+        text.className = "message-text";
+        text.textContent = message.text;
+
+        const time = document.createElement("span");
+        time.className = "message-time";
+        time.textContent = new Date(message.createdAt)
+          .toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+          });
+
+        wrapper.append(author, text, time);
+        $("chat-messages").appendChild(wrapper);
+      });
+
+      $("chat-messages").scrollTop =
+        $("chat-messages").scrollHeight;
+    }
+
+    function sendMessage(event) {
+      event.preventDefault();
+
+      const input = $("chat-input");
+      const text = input.value.trim();
+
+      if (!text) {
+        return;
+      }
+
+      const messages = getMessages();
+
+      messages.push({
+        uniqueId: state.profile.uniqueId,
+        nickname: state.profile.nickname,
+        text,
+        createdAt: Date.now()
+      });
+
+      writeStorage(STORAGE_KEYS.messages, messages.slice(-100));
+
+      input.value = "";
+      renderChat();
     }
 
     function shuffle(list) {
-      return [...list].sort(() => Math.random() - .5);
+      return [...list].sort(() => Math.random() - 0.5);
     }
 
     function startQuiz() {
       const selectedBook = $("book-filter").value;
 
-      const chosen = selectedBook === "All"
+      const selectedQuestions = selectedBook === "All"
         ? [...questions]
         : questions.filter((question) =>
             question.book === selectedBook
           );
 
-      const remaining = questions.filter(
-        (question) => !chosen.includes(question)
+      const otherQuestions = questions.filter(
+        (question) => !selectedQuestions.includes(question)
       );
 
       state.quizQuestions = [
-        ...shuffle(chosen),
-        ...shuffle(remaining)
+        ...shuffle(selectedQuestions),
+        ...shuffle(otherQuestions)
       ].slice(0, 10);
 
       state.questionIndex = 0;
@@ -1563,6 +1260,7 @@
         button.className = "option";
         button.type = "button";
         button.textContent = option;
+
         button.addEventListener("click", () => {
           answerQuestion(option);
         });
@@ -1600,7 +1298,7 @@
       );
     }
 
-    async function answerQuestion(answer) {
+    function answerQuestion(answer) {
       if (state.answerLocked) {
         return;
       }
@@ -1626,26 +1324,12 @@
       state.profile.questionsAnswered =
         (state.profile.questionsAnswered || 0) + 1;
 
+      saveProfile();
       updateStats();
+      subscribeLeaderboard();
 
       state.questionIndex += 1;
       showQuestion();
-
-      try {
-        await setDoc(
-          doc(db, "users", state.activeUid),
-          {
-            dailyPoints: state.profile.dailyPoints,
-            questionsAnswered: state.profile.questionsAnswered,
-            currentStreak: state.profile.currentStreak,
-            scoreDate: todayKey(),
-            lastSeenAt: serverTimestamp()
-          },
-          { merge: true }
-        );
-      } catch (error) {
-        console.error("Score save error:", error);
-      }
     }
 
     function finishQuiz() {
@@ -1680,60 +1364,58 @@
       $("book-filter").focus();
     }
 
-    $("register-tab").addEventListener("click", () => {
-      $("register-tab").classList.add("active");
-      $("login-tab").classList.remove("active");
-      $("register-form").classList.remove("hidden");
-      $("login-form").classList.add("hidden");
+    function switchView(viewId, button) {
+      document
+        .querySelectorAll("#quiz-view, #chat-view, #members-view")
+        .forEach((view) => view.classList.add("hidden"));
+
+      $(viewId).classList.remove("hidden");
+
+      document
+        .querySelectorAll("[data-view]")
+        .forEach((item) => {
+          item.classList.toggle("active", item === button);
+        });
+
+      if (viewId === "chat-view") {
+        renderChat();
+      }
+
+      if (viewId === "members-view") {
+        renderMembers();
+      }
+
+      if (viewId === "quiz-view") {
+        subscribeLeaderboard();
+      }
+    }
+
+    $("guest-button").addEventListener("click", () => {
+      sessionStorage.setItem("gog_guest_session", "true");
+      enterAsGuest();
     });
 
-    $("login-tab").addEventListener("click", () => {
-      $("login-tab").classList.add("active");
-      $("register-tab").classList.remove("active");
-      $("login-form").classList.remove("hidden");
-      $("register-form").classList.add("hidden");
-    });
+    $("logout-button").addEventListener("click", leaveHub);
 
-    $("register-form").addEventListener("submit", registerUser);
-    $("login-form").addEventListener("submit", loginUser);
-    $("guest-button").addEventListener("click", continueAsGuest);
-    $("reset-password-button").addEventListener("click", resetPassword);
-    $("logout-button").addEventListener("click", logoutUser);
     $("chat-form").addEventListener("submit", sendMessage);
+
     $("start-quiz-button").addEventListener("click", startQuiz);
-    $("new-quiz-button").addEventListener("click", chooseAnotherBook);
+
+    $("new-quiz-button").addEventListener(
+      "click",
+      chooseAnotherBook
+    );
 
     document.querySelectorAll("[data-view]").forEach((button) => {
       button.addEventListener("click", () => {
-        document.querySelectorAll("#quiz-view, #chat-view, #members-view")
-          .forEach((view) => view.classList.add("hidden"));
-
-        $(button.dataset.view).classList.remove("hidden");
-
-        document.querySelectorAll("[data-view]").forEach((item) => {
-          item.classList.toggle("active", item === button);
-        });
+        switchView(button.dataset.view, button);
       });
     });
 
-    setPersistence(auth, browserSessionPersistence).catch(console.error);
-
-    onAuthStateChanged(auth, async (user) => {
-      state.sessionNumber += 1;
-
-      if (!user) {
-        resetAppState();
-        return;
-      }
-
-      try {
-        await loadProfile(user);
-      } catch (error) {
-        console.error(error);
-        resetAppState();
-        showMessage(firebaseError(error));
-      }
-    });
+    if (sessionStorage.getItem("gog_guest_session") === "true") {
+      createGuestProfile();
+      showApp();
+    }
   </script>
 </body>
 </html>
